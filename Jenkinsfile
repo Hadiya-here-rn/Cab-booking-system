@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Debug Workspace') {
+            steps {
+                sh 'ls -R $WORKSPACE'
+            }
+        }
+
         stage('Build (Maven in Docker)') {
             steps {
                 sh '''
