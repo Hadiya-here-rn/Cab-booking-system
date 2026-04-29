@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git 'YOUR_REPO_LINK'
-            }
-        }
-
         stage('Build (Maven in Docker)') {
             steps {
                 sh '''
@@ -23,13 +17,13 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t Cab-app .'
+                sh 'docker build -t cab-app .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                sh 'docker run -d -p 8081:8080 Cab-app'
+                sh 'docker run -d -p 8081:8080 cab-app'
             }
         }
     }
