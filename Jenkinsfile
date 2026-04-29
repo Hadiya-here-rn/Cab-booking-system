@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Debug Workspace') {
+            steps {
+                sh 'ls -l /var/jenkins_home/workspace/Cab-booking-pipeline'
+            }
+        }
+
         stage('Build (Maven in Docker)') {
             steps {
                 sh '''
@@ -15,16 +21,5 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
-            steps {
-                sh 'docker build -t cab-app .'
-            }
-        }
-
-        stage('Docker Run') {
-            steps {
-                sh 'docker run -d -p 8081:8090 cab-app'
-            }
-        }
     }
 }
