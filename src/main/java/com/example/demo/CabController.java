@@ -10,10 +10,12 @@ public class CabController {
 
     // CREATE
     @PostMapping("/book")
-    public String bookCab(@RequestBody Map<String, String> booking) {
-        bookings.add(booking);
-        return "Booking Added";
-    }
+public String bookCab(@RequestBody Map<String, String> booking) {
+    booking.put("time", new Date().toString());   // timestamp
+    booking.put("status", "Booked");              // status
+    bookings.add(booking);
+    return "Booking Added";
+}
 
     // READ
     @GetMapping("/bookings")
@@ -22,14 +24,19 @@ public class CabController {
     }
 
     // UPDATE
-    @PutMapping("/update/{id}")
-    public String updateBooking(@PathVariable int id, @RequestBody Map<String, String> newBooking) {
-        if (id < bookings.size()) {
-            bookings.set(id, newBooking);
-            return "Booking Updated";
-        }
-        return "Invalid ID";
+   @PutMapping("/update/{id}")
+public String updateBooking(@PathVariable int id, @RequestBody Map<String, String> newBooking) {
+    if (id < bookings.size()) {
+
+        Map<String, String> old = bookings.get(id);
+
+        old.put("name", newBooking.get("name"));
+        old.put("location", newBooking.get("location"));
+
+        return "Booking Updated";
     }
+    return "Invalid ID";
+}
 
     // DELETE
     @DeleteMapping("/delete/{id}")
@@ -40,9 +47,17 @@ public class CabController {
         }
         return "Invalid ID";
     }
+    @PutMapping("/complete/{id}")
+public String completeRide(@PathVariable int id) {
+    if (id < bookings.size()) {
+        bookings.get(id).put("status", "Completed");
+        return "Ride Completed";
+    }
+    return "Invalid ID";
+}
 
     // HOME
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "Cab Booking System Running";
     }
