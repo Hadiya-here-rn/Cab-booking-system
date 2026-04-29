@@ -3,23 +3,22 @@ pipeline {
 
     stages {
 
-        stage('Debug Workspace') {
+        stage('Build') {
             steps {
-                sh 'ls -l /var/jenkins_home/workspace/Cab-booking-pipeline'
+                sh 'mvn clean package'
             }
         }
 
-        stage('Build (Maven in Docker)') {
+        stage('Docker Build') {
             steps {
-                sh '''
-                docker run --rm \
-                -v /var/jenkins_home/workspace/Cab-booking-pipeline:/app \
-                -w /app \
-                maven:3.9.9-eclipse-temurin-17 \
-                mvn clean package
-                '''
+                sh 'docker build -t cab-app .'
             }
         }
 
+        stage('Docker Run') {
+            steps {
+                sh 'docker run -d -p 8081:8080 cab-app'
+            }
+        }
     }
 }
