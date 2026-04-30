@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cab-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cab-app
+  template:
+    metadata:
+      labels:
+        app: cab-app
+    spec:
+      containers:
+      - name: cab-app
+        image: y0gyata/cab-app
+        ports:
+        - containerPort: 8080
