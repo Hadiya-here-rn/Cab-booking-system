@@ -14,14 +14,12 @@ pipeline {
             }
         }
 
-       stage('Docker Run') {
-    steps {
-        bat 'docker ps -q > container.txt'
-        bat 'for /f %i in (container.txt) do docker stop %i'
-        bat 'docker ps -aq > all.txt'
-        bat 'for /f %i in (all.txt) do docker rm %i'
-        bat 'docker run -d -p 8095:8092 --name cab-container cab-app'
-    }
-}
+        stage('Docker Run') {
+            steps {
+                bat 'docker stop cab-container || exit 0'
+                bat 'docker rm cab-container || exit 0'
+                bat 'docker run -d -p 8092:8092 --name cab-container cab-app'
+            }
+        }
     }
 }
