@@ -14,10 +14,11 @@ pipeline {
             }
         }
 
-        stage('Docker Run') {
-            steps {
-                bat 'docker run -d -p 8092:8092 cab-app'
-            }
-        }
+       stage('Docker Run') {
+    steps {
+        bat 'docker rm -f cab-container || true'
+        bat 'docker run -d -p 8092:8092 --name cab-container cab-app'
+    }
+}
     }
 }
