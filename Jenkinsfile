@@ -16,8 +16,11 @@ pipeline {
 
        stage('Docker Run') {
     steps {
-        bat 'docker rm -f cab-container || true'
-        bat 'docker run -d -p 8092:8092 --name cab-container cab-app'
+        bat 'docker ps -q > container.txt'
+        bat 'for /f %i in (container.txt) do docker stop %i'
+        bat 'docker ps -aq > all.txt'
+        bat 'for /f %i in (all.txt) do docker rm %i'
+        bat 'docker run -d -p 8095:8092 --name cab-container cab-app'
     }
 }
     }
