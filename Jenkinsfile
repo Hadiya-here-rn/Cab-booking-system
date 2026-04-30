@@ -15,11 +15,11 @@ pipeline {
         }
 
         stage('Docker Run') {
-            steps {
-                bat 'docker stop cab-container || exit 0'
-                bat 'docker rm cab-container || exit 0'
-                bat 'docker run -d -p 8092:8092 --name cab-container cab-app'
-            }
-        }
+    steps {
+        bat 'docker stop cab-container || exit 0'
+        bat 'docker rm cab-container || exit 0'
+        bat 'docker run -d -p 8092:8090 --name cab-container cab-app'
+    }
+}
     }
 }
